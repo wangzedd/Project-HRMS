@@ -22,7 +22,6 @@
           name="username"
           type="text"
           tabindex="1"
-          auto-complete="on"
         />
       </el-form-item>
 
@@ -52,42 +51,51 @@
         <a href="#" class="sign-up">注册</a>
         <a href="#" class="forget-pwd">忘记密码</a>
       </div>
-
+      <el-button type="primary" @click="ceshi">测试"</el-button>
     </el-form>
   </div>
 </template>
 
 <script>
 import { validUsername } from '@/utils/validate'
-
 export default {
   name: 'Login',
   data() {
+    // 自定义校验规则
     const validateUsername = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error('用户名不能为空'))
+      }
       if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
+        callback(new Error('请输入正确的用户名'))
       } else {
         callback()
       }
     }
     const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
+      if (!value) {
+        callback(new Error('密码不能为空'))
       } else {
-        callback()
+        if (value.length < 6) {
+          callback(new Error('密码不少于6位'))
+        } else if (value.length > 16) {
+          callback(new Error('密码不超过16位'))
+        } else {
+          callback()
+        }
       }
     }
     return {
       loginForm: {
-        username: 'admin',
-        password: '111111'
+        username: '',
+        password: ''
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
         password: [{ required: true, trigger: 'blur', validator: validatePassword }]
       },
       loading: false,
-      passwordType: 'password',
+      passwordType: 'password', // 密码输入框 or 输入框
       redirect: undefined
     }
   },
@@ -100,9 +108,10 @@ export default {
     }
   },
   methods: {
+    // 显示密码
     showPwd() {
       if (this.passwordType === 'password') {
-        this.passwordType = ''
+        this.passwordType = '' // 默认text
       } else {
         this.passwordType = 'password'
       }
@@ -110,6 +119,9 @@ export default {
         this.$refs.password.focus()
       })
     },
+    /**
+     * 登录
+     */
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {

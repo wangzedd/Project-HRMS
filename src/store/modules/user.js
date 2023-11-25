@@ -2,11 +2,12 @@ import { login, logout, getInfo } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
+// 获取默认state(token、name、avatar)
 const getDefaultState = () => {
   return {
     token: getToken(),
     name: '',
-    avatar: ''
+    avatar: '' // 头像
   }
 }
 
@@ -22,13 +23,15 @@ const mutations = {
   SET_NAME: (state, name) => {
     state.name = name
   },
+  // 设置头像
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
   }
 }
 
 const actions = {
-  // user login
+  // 用户登录
+  // (content上下文, 传入参数)
   login({ commit }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {

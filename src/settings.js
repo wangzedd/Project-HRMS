@@ -1,7 +1,7 @@
 module.exports = {
 
   title: '人力资源管理平台', // 网站标题
-  name: 'zedHRMS',
+  name: 'Project-HRMS',
 
   /**
    * @type {boolean} true | false
