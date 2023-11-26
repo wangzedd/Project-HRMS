@@ -106,7 +106,7 @@ export default {
         url: '/sys/login',
         method: 'post',
         data: {
-          mobile: '1300000002',
+          mobile: '13800000002',
           password: 'hm#qd@23!'
         }
       }).then(res => {
