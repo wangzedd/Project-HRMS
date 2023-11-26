@@ -11,15 +11,15 @@
         <h3 class="title">登录</h3>
       </div>
 
-      <el-form-item prop="username">
+      <el-form-item prop="mobile">
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
         <el-input
-          ref="username"
-          v-model="loginForm.username"
-          placeholder="请输入用户名"
-          name="username"
+          ref="mobile"
+          v-model="loginForm.mobile"
+          placeholder="请输入手机号"
+          name="mobile"
           type="text"
           tabindex="1"
         />
@@ -57,21 +57,11 @@
 </template>
 
 <script>
-import { validUsername } from '@/utils/validate'
+import request from '@/utils/request'
 export default {
   name: 'Login',
   data() {
     // 自定义校验规则
-    const validateUsername = (rule, value, callback) => {
-      if (!value) {
-        callback(new Error('用户名不能为空'))
-      }
-      if (!validUsername(value)) {
-        callback(new Error('请输入正确的用户名'))
-      } else {
-        callback()
-      }
-    }
     const validatePassword = (rule, value, callback) => {
       if (!value) {
         callback(new Error('密码不能为空'))
@@ -87,11 +77,14 @@ export default {
     }
     return {
       loginForm: {
-        username: '',
+        mobile: '',
         password: ''
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
+        mobile: [
+          { required: true, trigger: 'blur', message: '请输入手机号' },
+          { pattern: /^1\d{10}$/, trigger: 'blur', message: '请输入正确的手机号' }
+        ],
         password: [{ required: true, trigger: 'blur', validator: validatePassword }]
       },
       loading: false,
@@ -108,6 +101,18 @@ export default {
     }
   },
   methods: {
+    ceshi() {
+      request({
+        url: '/sys/login',
+        method: 'post',
+        data: {
+          mobile: '1300000002',
+          password: 'hm#qd@23!'
+        }
+      }).then(res => {
+        // console.log(res)
+      })
+    },
     // 显示密码
     showPwd() {
       if (this.passwordType === 'password') {

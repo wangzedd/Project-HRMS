@@ -2,12 +2,10 @@ import { login, logout, getInfo } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
-// 获取默认state(token、name、avatar)
+// 获取默认token
 const getDefaultState = () => {
   return {
-    token: getToken(),
-    name: '',
-    avatar: '' // 头像
+    token: getToken()
   }
 }
 
