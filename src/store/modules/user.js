@@ -30,20 +30,25 @@ const mutations = {
 const actions = {
   // 用户登录
   // (content上下文, 传入参数)
-  login({ commit }, userInfo) {
-    const { username, password } = userInfo
-    return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password }).then(response => {
-        const { data } = response
-        commit('SET_TOKEN', data.token)
-        setToken(data.token)
-        resolve()
-      }).catch(error => {
-        reject(error)
-      })
-    })
+  // 写法一：
+  async login({ commit }, userInfo) {
+    const token = await login(userInfo)
+    commit('SET_TOKEN', token)
+    setToken(token)
   },
-
+  // 写法二：
+  // login({ commit }, userInfo) {
+  //   return new Promise((resolve, reject) => {
+  //     login(userInfo).then(res => {
+  //       const data = res
+  //       commit('SET_TOKEN', data)
+  //       setToken(data)
+  //       resolve()
+  //     }).catch(error => {
+  //       reject(error)
+  //     })
+  //   })
+  // },
   // get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {

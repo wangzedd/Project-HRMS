@@ -5,7 +5,7 @@
       <img src="@/assets/login/login_back.png" alt="">
     </div>
     <!-- 右侧登录表单 -->
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
+    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" label-position="left">
 
       <div class="title-container">
         <h3 class="title">登录</h3>
@@ -45,19 +45,17 @@
         </span>
       </el-form-item>
 
-      <el-button class="login-btn" :loading="loading" type="primary" @click.native.prevent="handleLogin">登录</el-button>
+      <el-button class="login-btn" :loading="loading" type="primary" @click.native.prevent="handleLogin" @keyup.native.prevent="handleLogin">登录</el-button>
 
       <div class="tools">
         <a href="#" class="sign-up">注册</a>
         <a href="#" class="forget-pwd">忘记密码</a>
       </div>
-      <el-button type="primary" @click="ceshi">测试"</el-button>
     </el-form>
   </div>
 </template>
 
 <script>
-import request from '@/utils/request'
 export default {
   name: 'Login',
   data() {
@@ -77,8 +75,8 @@ export default {
     }
     return {
       loginForm: {
-        mobile: '',
-        password: ''
+        mobile: process.env.NODE_ENV === 'development' ? '13800000002' : '',
+        password: process.env.NODE_ENV === 'development' ? 'hm#qd@23!' : ''
       },
       loginRules: {
         mobile: [
@@ -101,18 +99,6 @@ export default {
     }
   },
   methods: {
-    ceshi() {
-      request({
-        url: '/sys/login',
-        method: 'post',
-        data: {
-          mobile: '13800000002',
-          password: 'hm#qd@23!'
-        }
-      }).then(res => {
-        // console.log(res)
-      })
-    },
     // 显示密码
     showPwd() {
       if (this.passwordType === 'password') {
@@ -132,7 +118,8 @@ export default {
         if (valid) {
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$router.push({ path: this.redirect || '/' })
+            // this.$router.push({ path: this.redirect || '/' })
+            this.$router.push('/')
             this.loading = false
           }).catch(() => {
             this.loading = false

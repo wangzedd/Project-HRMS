@@ -3,3 +3,5 @@
 2.引入目录下所有svg
 3.webpack loader打包svg
 4.svg-icon引用svg
+
+vue代码中除了NODE_ENV之外，所有的变量必须以VUE_APP_开头
