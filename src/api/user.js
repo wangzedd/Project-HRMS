@@ -10,10 +10,9 @@ export function login(data) {
 }
 
 // 获取用户信息
-export function getUserInfo(data) {
+export function getUserInfo() {
   return request({
     url: 'sys/profile',
-    method: 'GET',
-    data
+    method: 'GET'
   })
 }
