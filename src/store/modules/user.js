@@ -1,4 +1,4 @@
-import { login, logout, getInfo } from '@/api/user'
+import { login, logout, getUserInfo } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
@@ -9,7 +9,10 @@ const getDefaultState = () => {
   }
 }
 
-const state = getDefaultState()
+const state = {
+  ...getDefaultState(),
+  userInfo: {} // 用户基本信息
+}
 
 const mutations = {
   RESET_STATE: (state) => {
@@ -18,18 +21,17 @@ const mutations = {
   SET_TOKEN: (state, token) => {
     state.token = token
   },
-  SET_NAME: (state, name) => {
-    state.name = name
-  },
-  // 设置头像
-  SET_AVATAR: (state, avatar) => {
-    state.avatar = avatar
+  SET_USER_INFO: (state, userInfo) => {
+    state.userInfo = userInfo
   }
 }
 
 const actions = {
-  // 用户登录
-  // (content上下文, 传入参数)
+  /**
+   * 用户登录
+   * @param {content} content 上下文
+   * @param {userInfo} userInfo 传入参数(用户登录信息)
+   */
   // 写法一：
   async login({ commit }, userInfo) {
     const token = await login(userInfo)
@@ -49,21 +51,14 @@ const actions = {
   //     })
   //   })
   // },
-  // get user info
-  getInfo({ commit, state }) {
+
+  /** 获取用户信息 */
+  getUserInfo({ commit }) {
     return new Promise((resolve, reject) => {
-      getInfo(state.token).then(response => {
-        const { data } = response
-
-        if (!data) {
-          return reject('Verification failed, please Login again.')
-        }
-
-        const { name, avatar } = data
-
-        commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)
-        resolve(data)
+      getUserInfo().then(res => {
+        const userInfo = res
+        commit('SET_USER_INFO', userInfo)
+        resolve()
       }).catch(error => {
         reject(error)
       })

@@ -5,3 +5,6 @@
 4.svg-icon引用svg
 
 vue代码中除了NODE_ENV之外，所有的变量必须以VUE_APP_开头
+
+2023.11.29 
+permission.js store/user 里面的userInfo能否做成持久化，目前每次刷新页面都要去请求一次getUserInfo
