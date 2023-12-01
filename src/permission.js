@@ -40,9 +40,9 @@ router.beforeEach(async(to, from, next) => {
           next()
         } catch (error) {
           // 登录失败，重定向到登录页面
-          await store.dispatch('user/resetToken')
-          next(`/login?redirect=${to.path}`)
-          NProgress.done()
+          // await store.dispatch('user/resetToken')
+          // next(`/login?redirect=${to.path}`)
+          // NProgress.done()
         }
       }
     }

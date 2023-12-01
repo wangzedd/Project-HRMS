@@ -5,11 +5,12 @@
     <breadcrumb class="breadcrumb-container" />
 
     <div class="right-menu">
-      <el-dropdown class="avatar-container" trigger="click">
-        <div class="avatar-wrapper">
-          <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
-          <i class="el-icon-caret-bottom" />
-        </div>
+      <div class="avatar-container">
+        <img :src="avatar" class="user-avatar">
+        <span class="user-name">{{ userName }}</span>
+      </div>
+      <el-dropdown class="dropdown-container" trigger="click">
+        <span><i class="el-icon-setting" /></span>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
           <router-link to="/">
             <el-dropdown-item>
@@ -41,11 +42,18 @@ export default {
     Breadcrumb,
     Hamburger
   },
+  data() {
+    return {
+    }
+  },
   computed: {
     ...mapGetters([
       'sidebar',
-      'avatar'
+      'avatar',
+      'userName'
     ])
+  },
+  created() {
   },
   methods: {
     toggleSideBar() {
@@ -86,6 +94,7 @@ export default {
 
   .right-menu {
     float: right;
+    display: flex;
     height: 100%;
     line-height: 50px;
 
@@ -112,28 +121,28 @@ export default {
     }
 
     .avatar-container {
-      margin-right: 30px;
-
-      .avatar-wrapper {
-        margin-top: 5px;
-        position: relative;
+      margin-right: 20px;
 
         .user-avatar {
           cursor: pointer;
           width: 40px;
           height: 40px;
           border-radius: 10px;
+          vertical-align: middle;
         }
-
-        .el-icon-caret-bottom {
-          cursor: pointer;
-          position: absolute;
-          right: -20px;
-          top: 25px;
-          font-size: 12px;
+        .user-name {
+          font-size: 14px;
+          margin-left: 5px;
         }
       }
     }
+    .dropdown-container {
+      margin-right: 20px;
+      .el-icon-setting {
+          cursor: pointer;
+          vertical-align: middle;
+          font-size: 20px;
+        }
+    }
   }
-}
 </style>
