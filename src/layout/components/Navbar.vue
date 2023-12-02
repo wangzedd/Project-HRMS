@@ -6,7 +6,8 @@
 
     <div class="right-menu">
       <div class="avatar-container">
-        <img :src="avatar" class="user-avatar">
+        <img v-if="avatar" :src="avatar" class="user-avatar">
+        <span v-else class="user-name-avatar">{{ userName | nameFormat }}</span>
         <span class="user-name">{{ userName }}</span>
       </div>
       <el-dropdown class="dropdown-container" trigger="click">
@@ -42,6 +43,16 @@ export default {
     Breadcrumb,
     Hamburger
   },
+  filters: {
+    // 对没有头像的用户姓名进行格式化，展示名字首个汉字
+    nameFormat(value) {
+      const str = value.replace('黑马', '')
+      const newVal = str?.charAt(0) // 可选链'?.' 如果str不存在，则返回undefined，不继续往后执行
+      if (newVal) {
+        return newVal
+      }
+    }
+  },
   data() {
     return {
     }
@@ -59,6 +70,7 @@ export default {
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
     },
+    /** 登出 */
     async logout() {
       await this.$store.dispatch('user/logout')
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
@@ -68,6 +80,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+// 随机生成背景色
+$random-bg-color: rgb(random(256),random(256),random(256));
+
 .navbar {
   height: 50px;
   overflow: hidden;
@@ -129,6 +145,17 @@ export default {
           height: 40px;
           border-radius: 10px;
           vertical-align: middle;
+        }
+        .user-name-avatar {
+          display: inline-block;
+          width: 40px;
+          height: 40px;
+          line-height: 40px;
+          text-align: center;
+          background-color: $random-bg-color;
+          border-radius: 50%;
+          color: #fff;
+          font-size: 20px;
         }
         .user-name {
           font-size: 14px;

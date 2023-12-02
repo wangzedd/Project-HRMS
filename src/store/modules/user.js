@@ -1,22 +1,22 @@
-import { login, logout, getUserInfo } from '@/api/user'
+import { login, getUserInfo } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
-// 获取默认token
+// 默认token和用户基本信息
 const getDefaultState = () => {
   return {
-    token: getToken()
+    token: getToken(),
+    userInfo: {} // 用户基本信息
   }
 }
 
 const state = {
-  ...getDefaultState(),
-  userInfo: {} // 用户基本信息
+  ...getDefaultState()
 }
 
 const mutations = {
   RESET_STATE: (state) => {
-    Object.assign(state, getDefaultState())
+    Object.assign(state, getDefaultState()) // 重置state
   },
   SET_TOKEN: (state, token) => {
     state.token = token
@@ -65,24 +65,22 @@ const actions = {
     })
   },
 
-  // user logout
+  /**
+   * 用户登出
+   * 没调用接口，直接清除token
+   */
   logout({ commit, state }) {
-    return new Promise((resolve, reject) => {
-      logout(state.token).then(() => {
-        removeToken() // must remove  token  first
-        resetRouter()
-        commit('RESET_STATE')
-        resolve()
-      }).catch(error => {
-        reject(error)
-      })
-    })
+    removeToken() // 先移除token
+    resetRouter()
+    commit('RESET_STATE')
   },
 
-  // remove token
+  /**
+   * 重置token及用户信息
+   */
   resetToken({ commit }) {
     return new Promise(resolve => {
-      removeToken() // must remove  token  first
+      removeToken() // 先移除token
       commit('RESET_STATE')
       resolve()
     })

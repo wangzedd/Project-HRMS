@@ -1,8 +1,8 @@
 {
-  "name": "vue-admin-template",
+  "name": "Project-HRMS",
   "version": "4.4.0",
-  "description": "A vue admin template with Element UI & axios & iconfont & permission control & lint",
-  "author": "Pan <panfree23@gmail.com>",
+  "description": "A HRMS(Human Resource Management System) based on vue-admin-template which template with Element UI & axios & iconfont & permission control & lint",
+  "author": "wzdws0424@163.com",
   "scripts": {
     "dev": "vue-cli-service serve",
     "build:prod": "vue-cli-service build",
@@ -21,7 +21,7 @@
     "normalize.css": "7.0.0",
     "nprogress": "0.2.0",
     "path-to-regexp": "2.4.0",
-    "vue": "2.6.10",
+    "vue": "^2.7.0",
     "vue-router": "3.0.6",
     "vuex": "3.1.0"
   },
@@ -48,7 +48,7 @@
     "serve-static": "1.13.2",
     "svg-sprite-loader": "4.1.3",
     "svgo": "1.2.2",
-    "vue-template-compiler": "2.6.10"
+    "vue-template-compiler": "^2.7.0"
   },
   "browserslist": [
     "> 1%",

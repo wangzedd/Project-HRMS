@@ -1,6 +1,6 @@
 import axios from 'axios'
 import store from '@/store'
-import { Message } from 'element-ui'
+import { Message, MessageBox } from 'element-ui'
 // 创建一个新的axios实例
 const service = axios.create({
   // axios区分环境
@@ -52,6 +52,22 @@ service.interceptors.response.use(
   },
   // Restful风格错误处理,仅针对服务器是否响应请求
   error => {
+    const { status, statusText } = error.response
+    if (status === 401) {
+      // 401: 身份验证失败（token失效），退出登录返回登录页
+      MessageBox.confirm(`发生错误：${status}:${statusText}，请重新登录 `, '确定登出', {
+        confirmButtonText: '重新登录',
+        showCancelButton: false,
+        type: 'warning',
+        closeOnClickModal: false,
+        closeOnPressEscape: false
+        // center: true
+      }).then(() => {
+        store.dispatch('user/resetToken').then(() => {
+          location.reload() // 重新加载当前页面（刷新）
+        })
+      })
+    }
     Message({
       message: error.message,
       type: 'error'
