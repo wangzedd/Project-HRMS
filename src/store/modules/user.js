@@ -75,9 +75,7 @@ const actions = {
     commit('RESET_STATE')
   },
 
-  /**
-   * 重置token及用户信息
-   */
+  /** 重置token */
   resetToken({ commit }) {
     return new Promise(resolve => {
       removeToken() // 先移除token
