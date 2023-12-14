@@ -1,7 +1,8 @@
+<!-- 函数式组件：配置菜单图标和标题 -->
 <script>
 export default {
   name: 'MenuItem',
-  functional: true,
+  functional: true, // 函数式组件
   props: {
     icon: {
       type: String,
@@ -27,7 +28,7 @@ export default {
     if (title) {
       vnodes.push(<span slot='title'>{(title)}</span>)
     }
-    return vnodes
+    return vnodes // 返回渲染节点
   }
 }
 </script>

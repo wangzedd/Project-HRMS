@@ -1,12 +1,14 @@
+<!-- 侧边栏菜单 Logo -->
 <template>
   <div class="sidebar-logo-container" :class="{'collapse':collapse}">
     <transition name="sidebarLogoFade">
       <router-link v-if="collapse" key="collapse" class="sidebar-logo-link" to="/">
-        <img v-if="logo" :src="logo" class="sidebar-logo">
+        <!-- 注：img需要动态引入一个本地静态资源时，不能直接把相对地址存成变量直接赋值给src，需要 require 函数引入 -->
+        <img v-if="logo" :src="getLogoPath" class="sidebar-logo">
         <h1 v-else class="sidebar-title">{{ title }} </h1>
       </router-link>
       <router-link v-else key="expand" class="sidebar-logo-link" to="/">
-        <img v-if="logo" :src="logo" class="sidebar-logo">
+        <img v-if="logo" :src="getLogoPath" class="sidebar-logo">
         <h1 class="sidebar-title">{{ title }} </h1>
       </router-link>
     </transition>
@@ -14,6 +16,7 @@
 </template>
 
 <script>
+import defaultSettings from '@/settings'
 export default {
   name: 'SidebarLogo',
   props: {
@@ -24,8 +27,16 @@ export default {
   },
   data() {
     return {
-      title: 'Vue Admin Template',
-      logo: 'https://wpimg.wallstcn.com/69a1c46c-eb1c-4b46-8bd4-e9e686ef5251.png'
+      title: defaultSettings.title,
+      logo: '@/assets/logo.png'
+    }
+  },
+  computed: {
+    // 引入Logo图片
+    getLogoPath() {
+      // require 允许使用编程的方式引入静态资源，webpack在编译过程中解析并转换成一个模块，模块的值是一个指向图片资源的 URL
+      // 在运行时，Vue 将根据这个 URL 来加载图片。
+      return require('@/assets/logo.png')
     }
   }
 }
