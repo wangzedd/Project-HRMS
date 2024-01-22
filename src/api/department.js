@@ -1,9 +1,9 @@
 import request from '@/utils/request'
 
-// 获取部门列表
+// 获取组织架构列表
 export function getDepartments() {
   return request({
-    url: 'company/department',
+    url: '/company/department',
     method: 'get'
   })
 }
