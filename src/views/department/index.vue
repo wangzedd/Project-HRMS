@@ -4,6 +4,7 @@
     <div class="main-content">
       <el-tree
         ref="departmentTree"
+        v-loading="treeLoading"
         class="department-tree"
         :data="departmentData"
         :props="defaultProps"
@@ -34,12 +35,14 @@
   </div>
 </template>
 <script>
+import { transListToTree } from '@/utils'
 import { getDepartments } from '@/api/department'
 export default {
   name: 'Department',
   data() {
     return {
       departmentData: [], // 组织节点数据
+      treeLoading: true, // 数据加载状态
       defaultProps: {
         children: 'children',
         name: 'name'
@@ -53,8 +56,9 @@ export default {
     // 获取组织架构
     getDepartment() {
       getDepartments().then((res) => {
+        this.treeLoading = false
         const result = res
-        this.departmentData = result
+        this.departmentData = transListToTree(result, 0) // 树形数据转换，0为根节点id
       })
     }
   }
@@ -62,7 +66,8 @@ export default {
 </script>
 <style lang="scss">
 .department-tree {
-  width: 60%;
+  margin: 0 auto;
+  width: 70%;
 }
 .department-area {
   display: flex;
